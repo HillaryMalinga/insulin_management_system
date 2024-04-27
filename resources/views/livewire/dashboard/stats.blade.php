@@ -26,26 +26,27 @@ new class extends Component {
         $healthClass = '';
 
         if (!$this->user->is_admin) {
-            $averageSugarLevel = $this->user->activity()->avg('sugar_level');
+            $averageSugarLevel = $this->user->activity()->avg('sugar_level') ?? 0;
 
-            $lastSugarLevel = $this->user->activity()->latest()->first()->sugar_level;
+            $lastSugarLevel = $this->user->activity()->latest()->first()->sugar_level ?? " ";
 
-            list($lastActivity, $non) = explode(' ', $this->user->activity()->latest()->first()->protocol);
+            list($lastActivity, $non) = explode(' ', $this->user->activity()->latest()->first()->protocol ?? " ");
 
-            $healthClass = $this->user->patientAthrometric()->latest()->first()->bmi_category;
+            $healthClass = $this->user->patientAthrometric()->latest()->first()->bmi_category ?? "Not Set";
         } else {
             $averageSugarLevel = User::where('role', 'patient')->count();
             $lastSugarLevel = User::whereRelation('patientInformation', 'class', 'adult')->count();
             $lastActivity = User::whereRelation('patientInformation', 'class', 'adolescent')->count();
-            $healthClass = User::whereRelation('activity', 'class', 'adult')->latest()->first()->bmi_category;
+            $healthClass = 0;
         }
         return [
-            'gross' => number_format($averageSugarLevel, 2) . ' mg/dL',
-            'orders' => $lastSugarLevel . ' mg/dL',
+            'gross' => !$this->user->is_admin?number_format($averageSugarLevel, 2) . ' mg/dL' : $averageSugarLevel,
+            'orders' => $lastSugarLevel .(!$this->user->is_admin? ' mg/dL' : ""),
             'newCustomers' => $lastActivity,
             'healthClass' => $healthClass
         ];
     }
+
 
     public function with(): array
     {
