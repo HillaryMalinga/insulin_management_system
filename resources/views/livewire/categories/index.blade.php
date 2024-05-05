@@ -19,6 +19,8 @@ new class extends Component {
     #[Url]
     public string $search = '';
 
+    public string $period = '-30 days';
+
     #[Url]
     public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
 
@@ -75,7 +77,7 @@ new class extends Component {
 
 <div>
     {{--  HEADER  --}}
-    <x-header title="Categories" separator progress-indicator>
+    <x-header title="Analytics" separator progress-indicator>
         <x-slot:middle class="!justify-end">
             <x-input placeholder="Search..." wire:model.live.debounce="search" icon="o-magnifying-glass" clearable />
         </x-slot:middle>
@@ -84,15 +86,27 @@ new class extends Component {
         </x-slot:actions>
     </x-header>
 
-    {{-- TABLE --}}
-    <x-card>
-        <x-table :headers="$headers" :rows="$categories" @row-click="$wire.edit($event.detail.id)" :sort-by="$sortBy" with-pagination>
-            @scope('actions', $category)
-            <x-button wire:click="delete({{ $category->id }})" icon="o-trash" class="btn-sm btn-ghost text-error" wire:confirm="Are you sure?" spinner />
-            @endscope
-        </x-table>
-    </x-card>
+{{--    --}}{{-- TABLE --}}
+{{--    <x-card>--}}
+{{--        <x-table :headers="$headers" :rows="$categories" @row-click="$wire.edit($event.detail.id)" :sort-by="$sortBy" with-pagination>--}}
+{{--            @scope('actions', $category)--}}
+{{--            <x-button wire:click="delete({{ $category->id }})" icon="o-trash" class="btn-sm btn-ghost text-error" wire:confirm="Are you sure?" spinner />--}}
+{{--            @endscope--}}
+{{--        </x-table>--}}
+{{--    </x-card>--}}
 
-    {{-- EDIT MODAL --}}
-    <livewire:categories.edit wire:model="category" />
+{{--    --}}{{-- EDIT MODAL --}}
+{{--    <livewire:categories.edit wire:model="category" />--}}
+
+    <div class="grid lg:grid-cols-6 gap-8 mt-8">
+        {{-- AVERAGES --}}
+        <div class="col-span-6 lg:col-span-4">
+            <livewire:dashboard.chart-gross :$period/>
+        </div>
+
+        {{-- PER CATEGORY --}}
+        <div class="col-span-6 lg:col-span-2">
+            <livewire:dashboard.chart-category :$period/>
+        </div>
+    </div>
 </div>

@@ -54,7 +54,7 @@ new class extends Component {
             ['key' => 'id', 'label' => '#', 'class' => 'hidden lg:table-cell'],
             ['key' => 'date_human', 'label' => 'Date', 'sortBy' => 'created_at', 'class' => 'hidden lg:table-cell'],
             ['key' =>'sugar_level' , 'label' => 'Sugar Level', 'sortBy' => 'sugar_level','class'=>'hidden lg:table-cell'],
-            ['key' => 'protocol', 'label' => 'Protocol', 'sortBy' => 'protocol'],
+            ['key' => 'protocol', 'label' => 'Activity', 'sortBy' => 'protocol'],
             ['key' => 'activity_description', 'label' => 'Description', 'sortBy' => 'activity_description', 'class' => 'hidden lg:table-cell'],
             ['key' => 'status', 'label' => 'Status', 'sortBy' => 'status', 'class' => 'hidden lg:table-cell']
         ];
@@ -72,10 +72,10 @@ new class extends Component {
 
 <div>
     {{-- HEADER --}}
-    <x-header title="Activity" separator progress-indicator>
+    <x-header title="Entries" separator progress-indicator>
         {{--  SEARCH --}}
         <x-slot:middle class="!justify-end">
-            <x-input placeholder="Activity..." wire:model.live.debounce="name" icon="o-magnifying-glass" clearable/>
+            <x-input placeholder="Search entry..." wire:model.live.debounce="name" icon="o-magnifying-glass" clearable/>
         </x-slot:middle>
 
         {{-- ACTIONS  --}}
@@ -88,7 +88,7 @@ new class extends Component {
                       class="bg-base-300"
                       responsive/>
 
-            <x-button label="Create" link="/orders/create" icon="o-plus" class="btn-primary" responsive/>
+            <x-button label="New Entry" link="/orders/create" icon="o-plus" class="btn-primary" responsive/>
         </x-slot:actions>
     </x-header>
 

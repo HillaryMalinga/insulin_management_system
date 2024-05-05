@@ -76,7 +76,7 @@ new class extends Component {
     <x-header title="Patients" separator progress-indicator>
         {{--  SEARCH --}}
         <x-slot:middle class="!justify-end">
-            <x-input placeholder="Name..." wire:model.live.debounce="name" icon="o-magnifying-glass" clearable />
+            <x-input placeholder="Search patient" wire:model.live.debounce="name" icon="o-magnifying-glass" clearable />
         </x-slot:middle>
 
         {{-- ACTIONS  --}}
@@ -89,7 +89,7 @@ new class extends Component {
                       class="bg-base-300"
                       responsive />
 
-            <x-button label="Create" icon="o-plus" link="/users/create" class="btn-primary" responsive />
+            <x-button label="New Patient" icon="o-plus" link="/users/create" class="btn-primary" responsive />
         </x-slot:actions>
     </x-header>
 

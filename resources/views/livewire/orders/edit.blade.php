@@ -93,8 +93,11 @@ new class extends Component {
 
 <div>
     <x-header title="Order #{{ $order->id }}" separator>
-        <x-slot:actions>
+        {{-- <x-slot:actions>
             <x-button label="Delete" icon="o-trash" wire:click="delete" class="btn-error" wire:confirm="Are you sure?" spinner responsive />
+        </x-slot:actions> --}}
+         <x-slot:actions>
+            <x-button label="Back" link="/orders" icon="o-arrow-uturn-left" responsive/>
         </x-slot:actions>
     </x-header>
 

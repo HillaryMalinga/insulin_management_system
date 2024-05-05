@@ -1,98 +1,168 @@
 <?php
 
-use App\Actions\DeleteBrandAction;
-use App\Exceptions\AppException;
-use App\Models\Brand;
-use App\Traits\ResetsPaginationWhenPropsChanges;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\On;
+use App\Actions\DeleteCustomerAction;
+use App\Models\Country;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 new class extends Component {
-    use Toast, WithPagination, ResetsPaginationWhenPropsChanges;
+    use Toast, WithFileUploads;
 
-    #[Url]
-    public string $search = '';
+    public User $user;
 
-    #[Url]
-    public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
+    #[Rule('required')]
+    public string $name = '';
 
-    // Selected Brand to edit on modal
-    public ?Brand $brand;
+    #[Rule('required|email')]
+    public string $email = '';
 
-    #[On('brand-saved')]
-    #[On('brand-cancel')]
-    public function clear(): void
+    #[Rule('required|string')]
+    public $gender = null;
+
+    #[Rule('required|date')]
+    public string $dob;
+
+    #[Rule('required|numeric')]
+    public float $height;
+
+    #[Rule('required|numeric')]
+    public float $weight;
+
+    #[Rule('required|string')]
+    public string $address;
+
+    #[Rule('nullable|image|max:1024')]
+    public $avatar_file;
+
+    public function mount(): void
     {
-        $this->reset();
+        $this->user = User::find(Auth::user()->id);
+        $this->fill($this->user);
+        $this->gender = $this->user->patientInformation->first()->gender;
+        $this->dob = $this->user->patientInformation->first()->dob;
+        $this->height = $this->user->patientAthrometric->first()->height;
+        $this->weight = $this->user->patientAthrometric->first()->weight;
+        $this->address = $this->user->patientInformation->first()->address;
     }
 
-    public function edit(Brand $brand): void
-    {
-        $this->brand = $brand;
-    }
+//    public function delete(): void
+//    {
+//        $action = new DeleteCustomerAction($this->user);
+//        $action->execute();
+//
+//        $this->success('Deleted', redirectTo: '/users');
+//    }
 
-    public function delete(Brand $brand): void
+    public function save(): void
     {
-        $delete = new DeleteBrandAction($brand);
-        $delete->execute();
+        // Validate
+        $data = $this->validate();
 
-        $this->success('Brand deleted.');
-    }
+        // Update
+        $this->user->update($data);
 
-    public function brands(): LengthAwarePaginator
-    {
-        return Brand::query()
-            ->withCount('products')
-            ->when($this->search, fn(Builder $q) => $q->where('name', 'like', "%$this->search%"))
-            ->orderBy(...array_values($this->sortBy))
-            ->paginate(9);
-    }
+        if ($this->avatar_file) {
+            $url = $this->avatar_file->store('users', 'public');
+            $this->user->update(['avatar' => "/storage/$url"]);
+        }
 
-    public function headers(): array
-    {
-        return [
-            ['key' => 'id', 'label' => '#', 'class' => 'w-20'],
-            ['key' => 'name', 'label' => 'Name'],
-            ['key' => 'products_count', 'label' => 'Products', 'class' => 'w-32', 'sortBy' => 'products_count'],
-            ['key' => 'date_human', 'label' => 'Created at', 'class' => 'hidden lg:table-cell']
-        ];
+        $this->success('Customer updated with success.', redirectTo: '/users');
     }
 
     public function with(): array
     {
         return [
-            'brands' => $this->brands(),
-            'headers' => $this->headers()
+            'countries' => Country::all(),
         ];
     }
 }; ?>
 
 <div>
-    {{--  HEADER  --}}
-    <x-header title="Brands" separator progress-indicator>
-        <x-slot:middle class="!justify-end">
-            <x-input placeholder="Search..." wire:model.live.debounce="search" icon="o-magnifying-glass" clearable />
-        </x-slot:middle>
+    <x-header :title="$user->name" separator progress-indicator>
         <x-slot:actions>
-            <livewire:brands.create />
+            {{--            <x-button label="Delete" icon="o-trash" wire:click="delete" class="btn-error" wire:confirm="Are you sure?"--}}
+            {{--                      spinner responsive/>--}}
         </x-slot:actions>
     </x-header>
 
-    {{--  TABLE --}}
-    <x-card>
-        <x-table :headers="$headers" :rows="$brands" @row-click="$wire.edit($event.detail.id)" :sort-by="$sortBy" with-pagination>
-            @scope('actions', $brand)
-            <x-button wire:click="delete({{ $brand->id }})" icon="o-trash" class="btn-sm btn-ghost text-error" wire:confirm="Are you sure?" spinner />
-            @endscope
-        </x-table>
-    </x-card>
+    <div class="grid gap-5 lg:grid-cols-2">
+        <div>
+            <h3 class="text-base font-semibold leading-6 text-gray-900">Personal Details</h3>
+            <hr>
+            <br>
+            <x-form wire:submit="save">
+                <x-file label="Avatar" wire:model="avatar_file" accept="image/png, image/jpeg"
+                        hint="Click to change | Max 1MB" crop-after-change>
+                    <img src="{{ $user->avatar ?? '/images/empty-user.jpg' }}" class="h-40 rounded-lg mb-3"/>
+                </x-file>
 
-    {{--   EIDT MODAL --}}
-    <livewire:brands.edit wire:model="brand" />
+                <x-input label="Name" wire:model="name"/>
+                <x-input label="Email" wire:model="email"/>
+
+                <x-select label="Gender" wire:model="gender"
+                          :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'female']])"
+                          placeholder="---"
+                          icon=""/>
+
+                <x-input label="Date Of Birth" type="date" wire:model="dob" icon="" required/>
+
+                {{--                <div class="grid grid-cols-2 gap-4 content-start">--}}
+                {{--                    <x-input label="Height (m)" type="number" wire:model="height" step="0.001" icon="o-hand-raised"--}}
+                {{--                             required/>--}}
+                {{--                    <x-input label="Weight (kg)" type="number" wire:model="weight" step="0.001" icon="o-scale"--}}
+                {{--                             required/>--}}
+                {{--                </div>--}}
+
+                <x-textarea label="Address" wire:model="address" rows="3" required/>
+
+                <x-slot:actions>
+                    <x-button label="Cancel" link="/users"/>
+                    <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary"/>
+                </x-slot:actions>
+            </x-form>
+        </div>
+        <div>
+            <div>
+                <h3 class="text-base font-semibold leading-6 text-gray-900">Demographics</h3>
+                <hr>
+                <br>
+                <br>
+                <div class="grid grid-cols-2 gap-4 content-start">
+                    <x-input label="Age (years)" type="number" wire:model="height" step="0.001" icon=""
+                             readonly/>
+                    <x-input label="Gender" wire:model="weight" step="0.001" icon=""
+                             readonly/>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+
+            <div class="mt-4">
+                <h3 class="text-base font-semibold leading-6 text-gray-900">Anthropometry</h3>
+                <hr>
+                <br>
+                <div class="grid grid-cols-2 gap-4 content-start">
+                    <x-input label="Height (m)" type="number" wire:model="height" step="0.001" readonly icon=""
+                             required/>
+                    <x-input label="Weight (kg)" type="number" wire:model="weight" step="0.001" readonly icon=""
+                             required/>
+                </div>
+            </div>
+
+            <br>
+            <div class="mt-5">
+                <h3 class="text-base font-semibold leading-6 text-gray-900">V02 max</h3>
+                <hr>
+                <br>
+                <div class="gap-4 content-start">
+                    <x-input label="HRR" wire:model="name"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -60,17 +60,17 @@ new class extends Component {
 
     <div class="grid lg:grid-cols-4 gap-5 lg:gap-8">
         @if(!$user->is_admin)
-            <x-stat :value="$stats['gross']" title="Average Sugar Level" icon="o-banknotes"
+            <x-stat :value="$stats['gross']" title="Average Sugar Level" icon=""
                     class="shadow truncate text-ellipsis"/>
-            <x-stat :value="$stats['orders']" title="Last Sugar level" icon="o-gift" class="shadow"/>
-            <x-stat :value="$stats['newCustomers']" title="Last Activity" icon="o-user-plus" class="shadow"/>
-            <x-stat :value="$stats['healthClass']" title="Health Class" icon="o-heart" color="!text-pink-500"
+            <x-stat :value="$stats['orders']" title="Last Sugar level" icon="" class="shadow"/>
+            <x-stat :value="$stats['newCustomers']" title="Last Activity" icon="" class="shadow"/>
+            <x-stat :value="$stats['healthClass']" title="Health Class" icon="" color="!text-pink-500"
                     class="shadow"/>
         @else
-            <x-stat :value="$stats['gross']" title="Total Patients" icon="o-banknotes" class="shadow truncate text-ellipsis"/>
-            <x-stat :value="$stats['orders']" title="Total Adults" icon="o-gift" class="shadow"/>
-            <x-stat :value="$stats['newCustomers']" title="Total Adolescents" icon="o-user-plus" class="shadow"/>
-            <x-stat :value="0" title="Most Activity" icon="o-heart" color="!text-pink-500" class="shadow"/>
+            <x-stat :value="$stats['gross']" title="Total Patients" icon="" class="shadow text-ellipsis"/>
+            <x-stat :value="$stats['orders']" title="Hypoglycemic" icon="" class="shadow"/>
+            <x-stat :value="$stats['newCustomers']" title="Hyperglycemic" icon="" class="shadow"/>
+            <x-stat :value="0" title="Critical levels" icon="" color="!text-pink-500" class="shadow"/>
         @endif
     </div>
 </div>

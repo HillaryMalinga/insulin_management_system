@@ -73,16 +73,18 @@
 
             <x-menu-separator />
 
-            <x-menu-item title="Dashboard" icon="o-chart-pie" link="/" />
+            <x-menu-item title="Home" icon="o-home" link="/" />
             @if(auth()->user()->role === 'patient')
-                <x-menu-item title="Blood Sugar Tests" icon="o-user" link="/orders" />
+                <x-menu-item title="Entries" icon="o-clipboard" link="/orders" />
             @else
-                <x-menu-item title="Administrators" icon="o-gift" link="/orders" />
-                <x-menu-item title="Patients" icon="o-user" link="/users" />
+                <x-menu-item title="Administrators" icon="o-user-circle" link="/products" />
+                <x-menu-item title="Patients" icon="o-user-plus" link="/users" />
             @endif
-            @if(auth()->user()->role === 'patient')
+            <x-menu-item title="Analytics" icon="o-chart-pie" link="/categories" />
+            <x-menu-item title="Settings" icon="o-cog-8-tooth" link="/brands" />
+          {{-- @if(auth()->user()->role === 'patient')
                 <x-menu-item title="Settings" icon="o-cog-8-tooth" link="/brands" />
-            @endif
+            @endif  --}}
 
 
 {{--            <x-menu-sub title="Warehouse" icon="o-wrench-screwdriver">--}}
@@ -93,7 +95,7 @@
 
             <x-menu-separator />
 
-            <x-menu-item title="Search" @click.stop="$dispatch('mary-search-open')" icon="o-magnifying-glass" badge="Cmd + G" />
+            <x-menu-item title="Search" @click.stop="$dispatch('mary-search-open')" icon="o-magnifying-glass"  />
         </x-menu>
     </x-slot:sidebar>
 
@@ -112,7 +114,7 @@
 <x-toast />
 
 {{-- Spotlight --}}
-<x-spotlight search-text="Order number, customer, products or any action ..." />
+<x-spotlight search-text="Search..." />
 
 {{-- Theme Toggle--}}
 <x-theme-toggle class="hidden" />

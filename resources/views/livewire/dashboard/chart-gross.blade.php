@@ -11,6 +11,13 @@ new class extends Component {
     #[Reactive]
     public string $period = '-30 days';
 
+//    public bool $admin;
+//
+//    public function mount(): void
+//    {
+//        $this->admin = auth()->user()->is_admin;
+//    }
+
     public array $chartGross = [
         'type' => 'line',
         'options' => [
@@ -66,7 +73,8 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-card title="Gross" separator shadow>
+    <x-card title="{{$admin = auth()->user()->is_admin ? __('Averages') :  __('Blood Glucose Trend')}}" separator
+            shadow>
         <x-chart wire:model="chartGross" class="h-44"/>
     </x-card>
 </div>

@@ -28,7 +28,7 @@ class Category extends Model
     protected function dateHuman(): Attribute
     {
         return Attribute::make(
-            get: fn(?Carbon $value) => $this->created_at->toFormattedDateString()
+            get: fn(?Carbon $value) => $this->created_at?->toFormattedDateString()
         );
     }
 }

@@ -57,9 +57,15 @@ new class extends Component {
 } ?>
 
 <div>
-    <x-header title="Dashboard" separator progress-indicator>
+    <x-header title="Home" separator progress-indicator>
         <x-slot:actions>
-            <x-select :options="$periods" wire:model.live="period" icon="o-calendar"/>
+            @if(auth()->user()->role === 'patient')
+                <x-select :options="$periods" wire:model.live="period" icon="o-calendar"/>
+                <x-button label="New Entry" icon="o-plus" link="/orders/create" class="btn-primary" responsive />
+            @else
+                <x-select :options="$periods" wire:model.live="period" icon="o-calendar"/>
+                <x-button label="New Patient" icon="o-plus" link="/users/create" class="btn-primary" responsive />
+            @endif            
         </x-slot:actions>
     </x-header>
 
@@ -67,7 +73,7 @@ new class extends Component {
     <livewire:dashboard.stats :$period/>
 
     <div class="grid lg:grid-cols-6 gap-8 mt-8">
-        {{-- GROSS --}}
+        {{-- AVERAGES --}}
         <div class="col-span-6 lg:col-span-4">
             <livewire:dashboard.chart-gross :$period/>
         </div>

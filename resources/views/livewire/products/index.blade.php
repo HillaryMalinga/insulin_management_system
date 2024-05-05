@@ -59,6 +59,8 @@ new class extends Component {
         ];
     }
 
+   
+
     public function with(): array
     {
         return [
@@ -73,7 +75,7 @@ new class extends Component {
 
 <div>
     {{--  HEADER  --}}
-    <x-header title="Products" separator progress-indicator>
+    <x-header title="Administrators" separator progress-indicator>
         {{--  SEARCH --}}
         <x-slot:middle class="!justify-end">
             <x-input placeholder="Name..." wire:model.live.debounce="name" icon="o-magnifying-glass" clearable />
