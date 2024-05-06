@@ -73,15 +73,18 @@ new class extends Component {
     <livewire:dashboard.stats :$period/>
 
     <div class="grid lg:grid-cols-6 gap-8 mt-8">
-        {{-- AVERAGES --}}
-        <div class="col-span-6 lg:col-span-3">
-            <livewire:dashboard.chart-gross :$period/>
-        </div>
+        {{-- AVERAGES OR SUGAR LEVEL --}}
+        @if(auth()->user()->role === 'patient')
+                <div class=" col-span-6 lg:col-span-3" >
+                    <livewire:dashboard.chart-blood-glucose :$period/>
+                 </div> 
+            @else
+               <div class=" col-span-6 lg:col-span-3" >
+                    <livewire:dashboard.chart-gross :$period/>
+                 </div> 
+            @endif 
 
-        {{-- PER DISTRIBUTION --}}
-        {{-- <div class=" col-span-6 lg:col-span-3" >
-            <livewire:dashboard.chart-category :$period/>
-        </div> --}}
+        {{-- PATIENT DISTRIBUTION OR BMI --}}
         @if(auth()->user()->role === 'patient')
                 <div class=" col-span-6 lg:col-span-3" >
                     <livewire:dashboard.chart-bmi :$period/>

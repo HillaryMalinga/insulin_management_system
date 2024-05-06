@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     #[Reactive]
     public string $period = '-30 days';
+    public string $lastSugarLevel = '2.8 mmol/L';
 
     public function topCustomers(): Collection
     {
@@ -19,10 +20,11 @@ new class extends Component {
             ->groupBy('user_id')
             ->orderByDesc('amount')
             ->take(3)
-            ->get()
+            ->get() // Execute the query here
             ->transform(function (Order $order) {
                 $user = $order->user;
                 $user->amount = Number::currency($order->amount);
+                $user->lastSugarLevel = $this->lastSugarLevel; 
 
                 return $user;
             });
@@ -34,18 +36,22 @@ new class extends Component {
             'topCustomers' => $this->topCustomers(),
         ];
     }
+
+ 
+
 }; ?>
 
 <div>
     <x-card title="Critical levels patients" separator shadow>
         <x-slot:menu>
-            <x-button label="All patients" icon-right="o-arrow-right" link="/users" class="btn-ghost btn-sm" />
+            <x-button label="View all patients" icon-right="o-arrow-right" link="/users" class="btn-ghost btn-sm" />
         </x-slot:menu>
 
         @foreach($topCustomers as $customer)
-            <x-list-item :item="$customer" sub-value="country.name" link="/users/{{ $customer->id }}" no-separator>
+           <x-list-item :item="$customer" sub-value="" link="/users/{{ $customer->id }}" no-separator>
                 <x-slot:actions>
-                    <x-badge :value="$customer->amount" class="font-bold" />
+                {{-- <x-badge :value="$customer->amount" class="font-bold" /> --}}
+                <span>Last recorded: {{ $this->lastSugarLevel }}</span> 
                 </x-slot:actions>
             </x-list-item>
         @endforeach

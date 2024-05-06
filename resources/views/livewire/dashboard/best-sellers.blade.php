@@ -37,9 +37,9 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-card title="Administration Team" separator shadow>
+    <x-card title="Administrators" separator shadow>
         <x-slot:menu>
-            <x-button label="Team" icon-right="o-arrow-right" link="/products" class="btn-ghost btn-sm" />
+            <x-button label="View all admis" icon-right="o-arrow-right" link="/products" class="btn-ghost btn-sm" />
         </x-slot:menu>
 
         @foreach($bestSellers as $product)
