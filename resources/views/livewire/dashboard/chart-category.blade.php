@@ -36,7 +36,7 @@ new class extends Component {
     //     ]
     // ];
 
-    public array $myChart = [
+    public array $patientDistributionChart = [
     'type' => 'doughnut',
     'options' => [
             'responsive' => true,
@@ -86,8 +86,8 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-card title="{{$admin = auth()->user()->is_admin ? __('Distribution') :  __('BMI')}}" separator shadow>
+    <x-card title="Patient distribution" separator shadow>
         {{-- <x-chart wire:model="chartCategory" class="h-44"/> --}}
-        <x-chart wire:model="myChart" class="grid h-44"/>
+        <x-chart wire:model="patientDistributionChart" class="grid h-44"/>
     </x-card>
 </div>

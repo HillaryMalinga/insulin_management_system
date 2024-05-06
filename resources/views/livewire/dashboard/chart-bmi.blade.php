@@ -77,7 +77,7 @@ new class extends Component {
 
     // Generate labels for the last 30 days
     for ($i = 29; $i >= 0; $i--) {
-        $day = now()->subDays($i)->format('Y-m-d');
+        $day = now()->subDays($i)->format('d-m-y');
         $labels[] = $day;
     }
 
