@@ -73,7 +73,7 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-card title="{{$admin = auth()->user()->is_admin ? __('Averages') :  __('Blood Glucose')}}" separator
+    <x-card title="BMI" separator
             shadow>
         <x-chart wire:model="chartGross" class="h-44"/>
     </x-card>

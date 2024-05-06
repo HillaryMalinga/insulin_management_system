@@ -11,29 +11,56 @@ new class extends Component {
     #[Reactive]
     public string $period = '-30 days';
 
-    public array $chartCategory = [
-        'type' => 'doughnut',
-        'options' => [
+    // public array $chartCategory = [
+    //     'type' => 'doughnut',
+    //     'options' => [
+    //         'responsive' => true,
+    //         'maintainAspectRatio' => false,
+    //         'plugins' => [
+    //             'legend' => [
+    //                 'position' => 'left',
+    //                 'labels' => [
+    //                     'usePointStyle' => true
+    //                 ]
+    //             ]
+    //         ],
+    //     ],
+    //     'data' => [
+    //         'labels' => [],
+    //         'datasets' => [
+    //             [
+    //                 'label' => 'Sold',
+    //                 'data' => [],
+    //             ]
+    //         ]
+    //     ]
+    // ];
+
+    public array $myChart = [
+    'type' => 'doughnut',
+    'options' => [
             'responsive' => true,
             'maintainAspectRatio' => false,
             'plugins' => [
                 'legend' => [
                     'position' => 'left',
+                    // 'padding' => '40',
                     'labels' => [
                         'usePointStyle' => true
                     ]
                 ]
             ],
         ],
-        'data' => [
-            'labels' => [],
-            'datasets' => [
+    'data' => [
+        'labels' => ['Normal levels','Hypoglycemic', 'Hyperglycemic', 'Critical levels', ],
+        'datasets' => [
                 [
-                    'label' => 'Sold',
-                    'data' => [],
+                    'label' => '# of Patients',
+                    'data' => [49, 4, 0,0,],
+                    'backgroundColor' => ['#629969', '#87639f','#eb9ac2', '#f15d5f']
                 ]
             ]
-        ]
+         ]
     ];
 
     #[Computed]
@@ -46,8 +73,8 @@ new class extends Component {
             ->groupBy('category_id')
             ->get();
 
-        Arr::set($this->chartCategory, 'data.labels', $sales->pluck('category.name'));
-        Arr::set($this->chartCategory, 'data.datasets.0.data', $sales->pluck('total'));
+        // Arr::set($this->chartCategory, 'data.labels', $sales->pluck('category.name'));
+        // Arr::set($this->chartCategory, 'data.datasets.0.data', $sales->pluck('total'));
     }
 
     public function with(): array
@@ -60,6 +87,7 @@ new class extends Component {
 
 <div>
     <x-card title="{{$admin = auth()->user()->is_admin ? __('Distribution') :  __('BMI')}}" separator shadow>
-        <x-chart wire:model="chartCategory" class="h-44"/>
+        {{-- <x-chart wire:model="chartCategory" class="h-44"/> --}}
+        <x-chart wire:model="myChart" class="grid h-44"/>
     </x-card>
 </div>

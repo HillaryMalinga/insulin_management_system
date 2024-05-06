@@ -86,7 +86,8 @@ new class extends Component {
             + 0.1833;
 
         $user->patientPhysiology()->create([
-            'tbv' => round($tbv, 5),
+            // 'tbv' => round($tbv, 5),
+            'tbv' => '2',
             'cbgr' => round((0.00556 / (0.6 * $tbv)), 5),
             'isf' => 2,
             'dia' => 0.5,

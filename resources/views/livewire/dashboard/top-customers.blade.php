@@ -37,9 +37,9 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-card title="Top Patients" separator shadow>
+    <x-card title="Critical levels patients" separator shadow>
         <x-slot:menu>
-            <x-button label="Patients" icon-right="o-arrow-right" link="/users" class="btn-ghost btn-sm" />
+            <x-button label="All patients" icon-right="o-arrow-right" link="/users" class="btn-ghost btn-sm" />
         </x-slot:menu>
 
         @foreach($topCustomers as $customer)

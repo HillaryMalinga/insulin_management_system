@@ -104,8 +104,8 @@
         {{ $slot }}
 
         <div class="flex mt-5">
-            {{--            <x-button label="Source code" icon="o-code-bracket" link="/support-us" class="btn-ghost" />--}}
-{{--            <x-button label="Built with maryUI" icon="o-heart" link="https://mary-ui.com" class="btn-ghost !text-pink-500" external />--}}
+            {{-- <x-button label="Source code" icon="o-code-bracket" link="/support-us" class="btn-ghost" /> --}}
+            {{-- <x-button label="Built with maryUI" icon="o-heart" link="https://mary-ui.com" class="btn-ghost !text-pink-500" external /> --}}
         </div>
     </x-slot:content>
 </x-main>

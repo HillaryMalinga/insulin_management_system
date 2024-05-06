@@ -74,19 +74,28 @@ new class extends Component {
 
     <div class="grid lg:grid-cols-6 gap-8 mt-8">
         {{-- AVERAGES --}}
-        <div class="col-span-6 lg:col-span-4">
+        <div class="col-span-6 lg:col-span-3">
             <livewire:dashboard.chart-gross :$period/>
         </div>
 
-        {{-- PER CATEGORY --}}
-        <div class="col-span-6 lg:col-span-2">
+        {{-- PER DISTRIBUTION --}}
+        {{-- <div class=" col-span-6 lg:col-span-3" >
             <livewire:dashboard.chart-category :$period/>
-        </div>
+        </div> --}}
+        @if(auth()->user()->role === 'patient')
+                <div class=" col-span-6 lg:col-span-3" >
+                    <livewire:dashboard.chart-bmi :$period/>
+                 </div> 
+            @else
+               <div class=" col-span-6 lg:col-span-3" >
+                    <livewire:dashboard.chart-category :$period/>
+                 </div> 
+            @endif  
     </div>
 
     @if($isAdmin)
         <div class="grid lg:grid-cols-4 gap-8 mt-8">
-            {{-- TOP CUSTOMERS --}}
+            {{-- TOP PATIENTS --}}
             <div class="col-span-2">
                 <livewire:dashboard.top-customers :$period/>
             </div>
@@ -99,6 +108,6 @@ new class extends Component {
         </div>
 
         {{-- LATEST ORDERS --}}
-        <livewire:dashboard.oldest-orders :$period/>
+        {{-- <livewire:dashboard.oldest-orders :$period/> --}}
     @endif
 </div>
