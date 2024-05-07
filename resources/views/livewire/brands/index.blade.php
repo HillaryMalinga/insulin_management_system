@@ -141,12 +141,12 @@ new class extends Component {
                         <br>
                         <p class="text-xs">Don't know how to determine HRR or MHR?  <span class="underline cursor-pointer text-primary">Click here</span></p>
                     </x-card>
-
+                @endif
                     <x-slot:actions>
                         <x-button label="Cancel" link="/users" />
                         <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
                     </x-slot:actions>
-                @endif
+                
             </x-form>
 
             @if(auth()->user()->role === 'admin')

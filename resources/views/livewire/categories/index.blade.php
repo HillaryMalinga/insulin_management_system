@@ -100,7 +100,8 @@ new class extends Component {
 {{--    --}}{{-- EDIT MODAL --}}
 {{--    <livewire:categories.edit wire:model="category" />--}}
 
-     {{-- PATIENTS --}}
+    @if(auth()->user()->role === 'admin')
+    {{-- PATIENTS --}}
     <div class="flex flex-col gap-8 mt-8">
         <div>
             <x-card title="Patients" separator shadow>
@@ -147,7 +148,7 @@ new class extends Component {
 
         {{-- ADMINISTRATORS --}}
         <div>
-           <x-card title="Patients" separator shadow>
+           <x-card title="Administrators" separator shadow>
                 <div class="grid grid-cols-3 gap-4 content-start">
                     <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
                         <div >
@@ -171,4 +172,30 @@ new class extends Component {
             </x-card>
         </div>
     </div>
+    @else
+    <div>
+        <x-card title="Activities" separator shadow>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4">
+                    <div >
+                        <p class="text-xs text-gray-500">Total Eating</p> 
+                        <p class="text-xl font-black">26</p>
+                        <div class=" col-span-6 lg:col-span-3" >
+                            <livewire:categories.chart-eating :$period/>
+                        </div> 
+                    </div>    
+                </div>
+                <div class="p-4">
+                    <div >
+                        <p class="text-xs text-gray-500">Total Exercising</p> 
+                        <p class="text-xl font-black">15</p>
+                        <div class=" col-span-6 lg:col-span-3" >
+                            <livewire:categories.chart-eating :$period/>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </x-card>
+    </div>
+    @endif
 </div>

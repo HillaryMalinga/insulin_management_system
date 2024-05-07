@@ -56,7 +56,7 @@ new class extends Component {
             ['key' =>'sugar_level' , 'label' => 'Sugar Level', 'sortBy' => 'sugar_level','class'=>'hidden lg:table-cell'],
             ['key' => 'protocol', 'label' => 'Activity', 'sortBy' => 'protocol'],
             ['key' => 'activity_description', 'label' => 'Description', 'sortBy' => 'activity_description', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'status', 'label' => 'Status', 'sortBy' => 'status', 'class' => 'hidden lg:table-cell']
+            // ['key' => 'status', 'label' => 'Status', 'sortBy' => 'status', 'class' => 'hidden lg:table-cell']
         ];
     }
 
@@ -80,13 +80,13 @@ new class extends Component {
 
         {{-- ACTIONS  --}}
         <x-slot:actions>
-            <x-button label="Filters"
+            {{-- <x-button label="Filters"
                       icon="o-funnel"
                       :badge="$filterCount"
                       badge-classes="font-mono"
                       @click="$wire.showFilters = true"
                       class="bg-base-300"
-                      responsive/>
+                      responsive/> --}}
 
             <x-button label="New Entry" link="/orders/create" icon="o-plus" class="btn-primary" responsive/>
         </x-slot:actions>
