@@ -66,13 +66,14 @@ new class extends Component {
     <x-header :title="$user->name" separator progress-indicator>
         <x-slot:actions>
         <x-button label="Delete user" icon="o-trash" wire:click="delete" class="btn-error text-gray-100" wire:confirm="Are you sure you want to permanently delete this patient?" spinner responsive />
+         <x-button label="Back" link="/users" icon="o-arrow-uturn-left" responsive/>
         </x-slot:actions>
     </x-header>
 
     <div class="grid gap-5 lg:grid-cols-2">
         <div>
             <x-form wire:submit="save">
-                <x-file label="Avatar" wire:model="avatar_file" accept="image/png, image/jpeg" hint="Click to change | Max 1MB" crop-after-change>
+                <x-file label="Profile picture" wire:model="avatar_file" accept="image/png, image/jpeg" hint="Click to change | Max 1MB" crop-after-change>
                     <img src="{{ $user->avatar ?? '/images/empty-user.jpg' }}" class="h-40 rounded-lg mb-3" />
                 </x-file>
                 <x-input label="Name" wire:model="name" />
@@ -85,8 +86,8 @@ new class extends Component {
                 </x-slot:actions>
             </x-form>
         </div>
-        <div>
+        {{-- <div>
             <img src="/images/edit-form.png" width="300" class="mx-auto" />
-        </div>
+        </div> --}}
     </div>
 </div>

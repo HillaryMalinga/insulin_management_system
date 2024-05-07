@@ -12,8 +12,15 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\User;
+use Carbon\Carbon;
 
 new class extends Component {
+
+  
+
     use Toast, WithPagination, ResetsPaginationWhenPropsChanges;
 
     #[Url]
@@ -78,12 +85,7 @@ new class extends Component {
 <div>
     {{--  HEADER  --}}
     <x-header title="Analytics" separator progress-indicator>
-        <x-slot:middle class="!justify-end">
-            <x-input placeholder="Search..." wire:model.live.debounce="search" icon="o-magnifying-glass" clearable />
-        </x-slot:middle>
-        <x-slot:actions>
-            <livewire:categories.create />
-        </x-slot:actions>
+        {{-- <x-select :options="$periods" wire:model.live="period" icon="o-calendar"/> --}}
     </x-header>
 
 {{--    --}}{{-- TABLE --}}
@@ -98,15 +100,75 @@ new class extends Component {
 {{--    --}}{{-- EDIT MODAL --}}
 {{--    <livewire:categories.edit wire:model="category" />--}}
 
-    <div class="grid lg:grid-cols-6 gap-8 mt-8">
-        {{-- AVERAGES --}}
-        <div class="col-span-6 lg:col-span-4">
-            <livewire:dashboard.chart-gross :$period/>
+     {{-- PATIENTS --}}
+    <div class="flex flex-col gap-8 mt-8">
+        <div>
+            <x-card title="Patients" separator shadow>
+                <div class="grid grid-cols-3 gap-4 content-start">
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Patients</p> 
+                            <p class="text-xl font-black">59</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Adults</p> 
+                            <p class="text-xl font-black">43</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Adolescents</p> 
+                            <p class="text-xl font-black">16</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Hypoglycemic</p> 
+                            <p class="text-xl font-black">10</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Hyperglycemic</p> 
+                            <p class="text-xl font-black">0</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Critical Levels</p> 
+                            <p class="text-xl font-black">0</p>
+                        </div>    
+                    </div>
+                </div>
+            </x-card>
         </div>
 
-        {{-- PER CATEGORY --}}
-        <div class="col-span-6 lg:col-span-2">
-            <livewire:dashboard.chart-category :$period/>
+        {{-- ADMINISTRATORS --}}
+        <div>
+           <x-card title="Patients" separator shadow>
+                <div class="grid grid-cols-3 gap-4 content-start">
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Administrators</p> 
+                            <p class="text-xl font-black">3</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Clinical</p> 
+                            <p class="text-xl font-black">2</p>
+                        </div>    
+                    </div>
+                    <div class="px-5 py-4  cursor-pointer hover:bg-gray-100 hover:bg-opacity-5 rounded duration-200" >
+                        <div >
+                            <p class="text-xs text-gray-500">Total Clerical</p> 
+                            <p class="text-xl font-black">1</p>
+                        </div>    
+                    </div>
+                </div>
+            </x-card>
         </div>
     </div>
 </div>

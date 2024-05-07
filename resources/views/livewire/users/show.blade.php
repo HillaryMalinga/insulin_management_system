@@ -65,7 +65,7 @@ new class extends Component {
 <div>
     <x-header :title="$user->name" separator>
         <x-slot:actions>
-             <x-button label="Edit user" link="/users/{{ $user->id }}/edit" icon="o-pencil" class="btn-primary" responsive/>
+            <x-button label="Edit user" link="/users/{{ $user->id }}/edit" icon="o-pencil" class="btn-primary" responsive/>
             <x-button label="Delete user" icon="o-trash" wire:click="delete" class="btn-error text-gray-100" wire:confirm="Are you sure?" spinner responsive />
             <x-button label="Back" link="/users" icon="o-arrow-uturn-left" responsive/>    
         </x-slot:actions>
@@ -74,7 +74,7 @@ new class extends Component {
     <div class="grid lg:grid-cols-2 gap-8">
         {{-- PERSONAL INFO --}}
         <x-card title="Personal Info" separator shadow>
-            <div class="flex gap-4">
+            <div class="flex gap-4 text-sm">
                 <x-avatar :image="$user->avatar" class="!w-20">
                 {{-- <x-slot:title class="pl-2">
                 {{ $user->name }}
@@ -88,15 +88,15 @@ new class extends Component {
                 </x-slot:subtitle> --}}
             </x-avatar>
             <div class="flex flex-col gap-2" >
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Phone:</p>
                     <p>0772 222 333 <span class="font-bold text-red-500">*</span> </p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Email:</p>
                     <p>{{$user->email}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Physical adress:</p>
                     <p>{{ $user->patientInformation->first()->address }}</p>
                 </div>  
@@ -108,11 +108,11 @@ new class extends Component {
         {{-- DEMOGRAPHICS --}}
         <x-card title="Demographics" separator shadow>
             <div class="flex flex-col gap-2">
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Gender:</p>
                     <p>{{$user?->patientInformation->first()->gender}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">D.O.B:</p>
                     <p>
                         {{ Carbon::parse($user?->patientInformation->first()?->dob)->format('d-m-y') }}  ({{ Carbon::parse($user?->patientInformation->first()?->dob)->age . ' years' }})
@@ -127,15 +127,15 @@ new class extends Component {
         {{-- ANTHROPOMETRY --}}
         <x-card title="Anthropometry" separator shadow>
             <div class="flex flex-col gap-2">
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Height:</p>
                     <p>{{$user->patientAthrometric->first()->height.' cm'}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Weight:</p>
                     <p>{{$user->patientAthrometric->first()->weight.' kg'}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">BMI:</p>
                     <p>{{$user?->patientAthrometric->first()->bmi}} <span class="font-bold text-red-500">*</span></p>
                 </div>  
@@ -181,27 +181,27 @@ new class extends Component {
                 </div>
             </div> --}}
             <div class="grid grid-cols-2 gap-4">
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">TBV:</p>
                     <p>{{$user?->patientPhysiology->first()->tbv. ' mL/kg'}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">CBGR:</p>
                     <p>{{$user?->patientPhysiology->first()->cbgr. '/min'}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">TDD:</p>
                     <p>50 <span class="font-bold text-red-500">*</span> </p>
                 </div>  
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">ICR:</p>
                     <p>10 <span class="font-bold text-red-500">*</span> </p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">ISF:</p>
                     <p>{{$user?->patientPhysiology->first()->isf}}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">DIA:</p>
                     <p>{{$user?->patientPhysiology->first()->dia.' hrs'}}</p>
                 </div>  
@@ -213,19 +213,19 @@ new class extends Component {
         {{-- EXERCISE INFO --}}
         <x-card title="Exercise Info" separator shadow >
             <div class="grid grid-cols-2 gap-4" >
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Heart Rate at Rest:</p>
                     <p>72 bpm <span class="font-bold text-red-500">*</span> </p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">Max heart rate:</p>
                     <p>176 bpm <span class="font-bold text-red-500">*</span> </p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">VO2 Max:</p>
                     <p>36.7 mL/kg/min <span class="font-bold text-red-500">*</span> </p>
                 </div>  
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-sm">
                     <p class="font-bold">METs Max:</p>
                     <p>10.5 <span class="font-bold text-red-500">*</span> </p>
                 </div>  
