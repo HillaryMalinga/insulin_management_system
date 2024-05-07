@@ -105,7 +105,7 @@ new class extends Component {
 
             {{-- BEST SELLERS --}}
             <div class="col-span-2">
-                <livewire:dashboard.best-sellers :$period/>
+                <livewire:dashboard.admins :$period/>
             </div>
 
         </div>

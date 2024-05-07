@@ -55,8 +55,10 @@ new class extends Component {
         return [
             ['key' => 'avatar', 'label' => '', 'class' => 'w-14', 'sortable' => false],
             ['key' => 'name', 'label' => 'Name'],
-            ['key' => 'country.name', 'label' => 'Country', 'sortBy' => 'country_name', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'email', 'label' => 'E-mail', 'class' => 'hidden lg:table-cell']
+            ['key' => 'country.name', 'label' => 'Last entry date', 'sortBy' => 'country_name', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'email', 'label' => 'Blood sugar', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'email', 'label' => 'Last activity', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'email', 'label' => 'Phone', 'class' => 'hidden lg:table-cell']
         ];
     }
 
@@ -81,13 +83,13 @@ new class extends Component {
 
         {{-- ACTIONS  --}}
         <x-slot:actions>
-            <x-button label="Filters"
+            {{-- <x-button label="Filters"
                       icon="o-funnel"
                       :badge="$filterCount"
                       badge-classes="font-mono"
                       @click="$wire.showFilters = true"
                       class="bg-base-300"
-                      responsive />
+                      responsive /> --}}
 
             <x-button label="New Patient" icon="o-plus" link="/users/create" class="btn-primary" responsive />
         </x-slot:actions>
