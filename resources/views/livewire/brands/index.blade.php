@@ -42,11 +42,11 @@ new class extends Component {
     {
         $this->user = User::find(Auth::user()->id);
         $this->fill($this->user);
-        $this->gender = $this->user->patientInformation->first()->gender;
-        $this->dob = $this->user->patientInformation->first()->dob;
-        $this->height = $this->user->patientAthrometric->first()->height;
-        $this->weight = $this->user->patientAthrometric->first()->weight;
-        $this->address = $this->user->patientInformation->first()->address;
+        // $this->gender = $this->user->patientInformation->first()->gender;
+        // $this->dob = $this->user->patientInformation->first()->dob;
+        // $this->height = $this->user->patientAthrometric->first()->height;
+        // $this->weight = $this->user->patientAthrometric->first()->weight;
+        // $this->address = $this->user->patientInformation->first()->address;
     }
 
 //    public function delete(): void

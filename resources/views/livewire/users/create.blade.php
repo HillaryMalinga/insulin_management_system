@@ -115,11 +115,14 @@ new class extends Component {
                     <img src="{{ $user->avatar ?? '/images/empty-user.jpg' }}" class="h-40 rounded-lg mb-3"/>
                 </x-file>
                 <x-input label="Name" wire:model="name" icon="o-user" required/>
+                
+                <x-input label="Phone" wire:model="phone" icon="o-phone" required/>
+
                 <x-input label="Email" wire:model="email" icon="o-at-symbol" required/>
 
                 <x-select label="Gender" wire:model="gender"
                           :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'Female']])"
-                          placeholder="---"
+                          placeholder="Select gender"
                           icon="o-user-plus"/>
 
                 <x-input label="Date Of Birth" type="date" wire:model="dob" icon="o-calendar" required/>

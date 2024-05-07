@@ -65,8 +65,8 @@ new class extends Component {
 <div>
     <x-header :title="$user->name" separator>
         <x-slot:actions>
-            <x-button label="Edit user" link="/users/{{ $user->id }}/edit" icon="o-pencil" class="btn-primary" responsive/>
-            <x-button label="Delete user" icon="o-trash" wire:click="delete" class="btn-error text-gray-100" wire:confirm="Are you sure?" spinner responsive />
+            <x-button label="Edit patient" link="/users/{{ $user->id }}/edit" icon="o-pencil" class="btn-primary" responsive/>
+            <x-button label="Delete patient" icon="o-trash" wire:click="delete" class="btn-error text-gray-100" wire:confirm="Are you sure?" spinner responsive />
             <x-button label="Back" link="/users" icon="o-arrow-uturn-left" responsive/>    
         </x-slot:actions>
     </x-header>
