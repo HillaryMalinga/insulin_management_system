@@ -105,12 +105,12 @@ new class extends Component {
 ?>
 
 <div>
-    <x-header title="New Customer" separator progress-indicator/>
+    <x-header title="New Patient" separator progress-indicator/>
 
     <div class="grid gap-5 lg:grid-cols-2">
         <div>
             <x-form wire:submit="save">
-                <x-file label="Avatar" wire:model="avatar_file" accept="image/png, image/jpeg"
+                <x-file label="Profile picture" wire:model="avatar_file" accept="image/png, image/jpeg"
                         hint="Click to change | Max 1MB" crop-after-change>
                     <img src="{{ $user->avatar ?? '/images/empty-user.jpg' }}" class="h-40 rounded-lg mb-3"/>
                 </x-file>
@@ -118,7 +118,7 @@ new class extends Component {
                 <x-input label="Email" wire:model="email" icon="o-at-symbol" required/>
 
                 <x-select label="Gender" wire:model="gender"
-                          :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'female']])"
+                          :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'Female']])"
                           placeholder="---"
                           icon="o-user-plus"/>
 
@@ -138,8 +138,8 @@ new class extends Component {
                 </x-slot:actions>
             </x-form>
         </div>
-        <div>
+        {{-- <div>
             <img src="/images/edit-form.png" width="300" class="mx-auto"/>
-        </div>
+        </div> --}}
     </div>
 </div>

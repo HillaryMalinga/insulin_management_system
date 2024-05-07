@@ -65,7 +65,7 @@ new class extends Component {
 <div>
     <x-header :title="$user->name" separator progress-indicator>
         <x-slot:actions>
-            <x-button label="Delete" icon="o-trash" wire:click="delete" class="btn-error" wire:confirm="Are you sure?" spinner responsive />
+        <x-button label="Delete user" icon="o-trash" wire:click="delete" class="btn-error text-gray-100" wire:confirm="Are you sure you want to permanently delete this patient?" spinner responsive />
         </x-slot:actions>
     </x-header>
 
