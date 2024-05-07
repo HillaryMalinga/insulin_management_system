@@ -42,11 +42,14 @@ new class extends Component {
     {
         $this->user = User::find(Auth::user()->id);
         $this->fill($this->user);
-        // $this->gender = $this->user->patientInformation->first()->gender;
-        // $this->dob = $this->user->patientInformation->first()->dob;
-        // $this->height = $this->user->patientAthrometric->first()->height;
-        // $this->weight = $this->user->patientAthrometric->first()->weight;
-        // $this->address = $this->user->patientInformation->first()->address;
+        if ((auth()->user()->role === 'patient')){
+        $this->gender = $this->user->patientInformation->first()->gender;
+        $this->dob = $this->user->patientInformation->first()->dob;
+        $this->height = $this->user->patientAthrometric->first()->height;
+        $this->weight = $this->user->patientAthrometric->first()->weight;
+        $this->address = $this->user->patientInformation->first()->address;
+        }
+       
     }
 
 //    public function delete(): void
@@ -82,18 +85,79 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-header :title="$user->name" separator progress-indicator>
-        <x-slot:actions>
-            {{--            <x-button label="Delete" icon="o-trash" wire:click="delete" class="btn-error" wire:confirm="Are you sure?"--}}
-            {{--                      spinner responsive/>--}}
-        </x-slot:actions>
+    <x-header title="Settings" separator progress-indicator>
     </x-header>
-
     <div class="grid gap-5 lg:grid-cols-2">
-        <div>
-            <h3 class="text-base font-semibold leading-6 text-gray-900">Personal Details</h3>
-            <hr>
-            <br>
+        <x-form wire:submit="save">
+                <x-card title="Personal Info" separator shadow>
+                    <x-file label="Profile picture" wire:model="avatar_file" accept="image/png, image/jpeg" hint="Click to change | Max 1MB" crop-after-change>
+                        <img src="{{ $user->avatar ?? '/images/empty-user.jpg' }}" class="h-40 rounded-lg mb-3" />
+                    </x-file>
+                    <br>
+                    <x-input label="Name" wire:model="name" />
+                    <br>
+                    <x-input label="Phone *" wire:model="phone" />
+                    <br>
+                    <x-input label="Email" wire:model="email" />
+                    <br>
+                    <x-input label="Address" wire:model="address" />
+                    {{-- <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="Select Country" /> --}}
+                </x-card>
+
+                <x-card title="Password" class="mt-8" separator shadow>
+                    <x-input label="Enter current password" wire:model="password" />
+                    <br>
+                    <x-input label="Enter new password" wire:model="newPassword" />
+                    <br>
+                    <x-input label="Confirm new password" wire:model="confirmPassword" />
+                </x-card>
+
+               @if(auth()->user()->role === 'patient')
+                    <x-card title="Demographics" class="mt-8" separator shadow>
+                        <x-select label="Gender" wire:model="gender"
+                            :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'female']])"
+                            placeholder="Select gender"
+                            icon=""/>
+                        <br>
+                        <x-input label="D.O.B" wire:model="dob" />
+                    </x-card>
+
+                    <x-card title="Anthropometry" class="mt-8" separator shadow>
+                        <x-input label="Height (cm)" wire:model="height" />
+                        <br>
+                        <x-input label="Weight (kg)" wire:model="weight" />
+                    </x-card>
+                    
+                    {{-- <x-card title="Physiology" class="mt-8" separator shadow>
+                        <x-input label="TDD *" wire:model="tdd" />
+                        <br>
+                        <x-input label="DIA *" wire:model="dia" />
+                    </x-card> --}}
+                    
+                    <x-card title="Exercise Info" class="mt-8" separator shadow>
+                        <x-input label="HRR" wire:model="hrr"/>
+                        <br>
+                        <x-input label="Max heart rate" wire:model="mhr" />
+                        <br>
+                        <p class="text-xs">Don't know how to determine HRR or MHR?  <span class="underline cursor-pointer text-primary">Click here</span></p>
+                    </x-card>
+
+                    <x-slot:actions>
+                        <x-button label="Cancel" link="/users" />
+                        <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+                    </x-slot:actions>
+                @endif
+            </x-form>
+
+            @if(auth()->user()->role === 'admin')
+               <div>
+                    <x-card title="Admin settings" separator shadow>
+                    </x-card>
+                </div> 
+            @endif  
+            
+            
+        {{-- <x-card title="Personal Details" separator shadow>
             <x-form wire:submit="save">
                 <x-file label="Avatar" wire:model="avatar_file" accept="image/png, image/jpeg"
                         hint="Click to change | Max 1MB" crop-after-change>
@@ -101,22 +165,17 @@ new class extends Component {
                 </x-file>
 
                 <x-input label="Name" wire:model="name"/>
+                
+                <x-input label="Phone" wire:model="phone"/>
+
                 <x-input label="Email" wire:model="email"/>
 
                 <x-select label="Gender" wire:model="gender"
                           :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'female']])"
-                          placeholder="---"
+                          placeholder="Select gender"
                           icon=""/>
 
                 <x-input label="Date Of Birth" type="date" wire:model="dob" icon="" required/>
-
-                {{--                <div class="grid grid-cols-2 gap-4 content-start">--}}
-                {{--                    <x-input label="Height (m)" type="number" wire:model="height" step="0.001" icon="o-hand-raised"--}}
-                {{--                             required/>--}}
-                {{--                    <x-input label="Weight (kg)" type="number" wire:model="weight" step="0.001" icon="o-scale"--}}
-                {{--                             required/>--}}
-                {{--                </div>--}}
-
                 <x-textarea label="Address" wire:model="address" rows="3" required/>
 
                 <x-slot:actions>
@@ -124,7 +183,7 @@ new class extends Component {
                     <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary"/>
                 </x-slot:actions>
             </x-form>
-        </div>
+        </x-card>
         <div>
             <div>
                 <h3 class="text-base font-semibold leading-6 text-gray-900">Demographics</h3>
@@ -163,6 +222,6 @@ new class extends Component {
                     <x-input label="HRR" wire:model="name"/>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> --}}
+    </div> 
 </div>

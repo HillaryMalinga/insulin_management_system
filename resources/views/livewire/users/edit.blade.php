@@ -90,7 +90,10 @@ new class extends Component {
 
                
                 <x-card title="Demographics" class="mt-8" separator shadow>
-                    <x-input label="Gender *" wire:model="gender" />
+                    <x-select label="Gender *" wire:model="gender"
+                          :options="collect([['id' => 'male', 'name' => 'Male'], ['id' => 'female', 'name' => 'Female']])"
+                          placeholder="Select gender"
+                          icon=""/>
                     <br>
                     <x-input label="D.O.B *" wire:model="dob" />
                 </x-card>
@@ -111,6 +114,7 @@ new class extends Component {
                     <x-input label="HRR" wire:model="hrr" />
                     <br>
                     <x-input label="Max heart rate" wire:model="mhr" />
+                    
                 </x-card>
 
                 <x-slot:actions>
