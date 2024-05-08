@@ -62,13 +62,9 @@ new class extends Component {
     public function headers(): array
     {
         return [
-            ['key' => 'product.cover', 'label' => '', 'sortable' => false, 'class' => 'w-14 px-1 lg:px-3'],
-            ['key' => 'product.name', 'label' => 'Product', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'product.brand.name', 'label' => 'Brand', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'product.category.name', 'label' => 'Category', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'quantity', 'label' => 'Qty'],
-            ['key' => 'price_human', 'label' => 'Price', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'total_human', 'label' => 'Total'],
+            ['key' => 'price_human', 'label' => 'Time', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'product.name', 'label' => 'Action taken', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'product.brand.name', 'label' => 'Action results', 'class' => 'hidden lg:table-cell'],
         ];
     }
 
@@ -92,7 +88,7 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-header title="Order #{{ $order->id }}" separator>
+    <x-header title="View entry" separator>
         {{-- <x-slot:actions>
             <x-button label="Delete" icon="o-trash" wire:click="delete" class="btn-error" wire:confirm="Are you sure?" spinner responsive />
         </x-slot:actions> --}}
@@ -101,37 +97,46 @@ new class extends Component {
         </x-slot:actions>
     </x-header>
 
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="">
         {{-- CUSTOMER --}}
-        <livewire:orders.customer :$order />
+        {{-- <livewire:orders.customer :$order /> --}}
 
-        {{-- SUMMARY --}}
-        <x-card title="Summary" separator shadow>
-            <x-slot:menu>
-                <x-badge :value="$order->status->name" class="badge-sm {{ $order->status->color  }}" />
-            </x-slot:menu>
-
-            <div class="grid gap-2">
-                <div class="flex gap-3 justify-between items-baseline px-10">
-                    <div>Items</div>
-                    <div class="border-b border-b-gray-400 border-dashed flex-1"></div>
-                    <div class="font-black">({{ $order->items()->count() }})</div>
+        {{-- ENTRY INFO --}}
+        <x-card title="Entry info" separator shadow>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">Activity:</p>
+                    <p>Eating <span class="font-bold text-red-500">*</span></p>
                 </div>
-                <div class="flex gap-3 justify-between items-baseline px-10">
-                    <div>Total</div>
-                    <div class="border-b border-b-gray-400 border-dashed flex-1"></div>
-                    <div class="font-black">{{ $order->total_human }}</div>
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">Entry date:</p>
+                    <p>07-05-24 <span class="font-bold text-red-500">*</span></p>
                 </div>
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">Start time:</p>
+                    <p>13:25 <span class="font-bold text-red-500">*</span></p>
+                </div>  
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">Finish time:</p>
+                    <p>13:25 <span class="font-bold text-red-500">*</span></p>
+                </div>  
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">Starting sugar level:</p>
+                    <p>5.2 mmol/L <span class="font-bold text-red-500">*</span></p>
+                </div>  
+                <div class="flex gap-2 text-sm">
+                    <p class="font-bold">No. of actions:</p>
+                    <p>1 <span class="font-bold text-red-500">*</span></p>
+                </div>  
             </div>
         </x-card>
     </div>
 
-    {{-- ITEMS --}}
-    <x-card title="Items" separator progress-indicator="updateQuantity" shadow class="mt-8">
-        <x-slot:menu>
-            {{-- ADD ITEM --}}
+    {{-- ACTIONS LOG --}}
+    <x-card title="Entry actions log" separator progress-indicator="updateQuantity" shadow class="mt-8">
+        {{-- <x-slot:menu>
             <livewire:orders.add-item :order="$order" />
-        </x-slot:menu>
+        </x-slot:menu> --}}
 
         <x-table :rows="$order->items" :headers="$headers">
             {{-- Cover image scope --}}
@@ -145,20 +150,14 @@ new class extends Component {
                       class="select-sm !w-14" />
             @endscope
 
-            {{-- Actions scope --}}
+            {{-- Actions scope
             @scope('actions', $item)
             <x-button icon="o-trash" wire:click="deleteItem({{ $item->id }})" spinner class="btn-ghost text-error btn-sm" />
-            @endscope
+            @endscope --}}
         </x-table>
 
         @if(!$order->items->count())
             <x-icon name="o-list-bullet" label="Nothing here." class="text-gray-400 mt-5" />
         @endif
     </x-card>
-
-    <div class="text-gray-400 text-xs mt-5">
-        On this demo you are able to freely modify the order regardless its status.
-        The orders goes to a random status after adding an item, just for better display on orders list.
-        Of course, you should improve this business logic.
-    </div>
 </div>
