@@ -75,15 +75,15 @@ new class extends Component {
     {
         return collect([
             [
-                'id' => 'exercise',
-                'name' => 'About to exercise',
-                'description' => 'Exercise Protocol Description',
+                'id' => 'foodInsulin',
+                'name' => 'Eating',
+                'description' => 'Food Insulin Protocol Description',
                 'status' => 'active'
             ],
             [
-                'id' => 'foodInsulin',
-                'name' => 'About to eat',
-                'description' => 'Food Insulin Protocol Description',
+                'id' => 'exercise',
+                'name' => 'Exercising',
+                'description' => 'Exercise Protocol Description',
                 'status' => 'active'
             ]
         ]);
@@ -357,7 +357,7 @@ new class extends Component {
         <div class="content-start">
             @if($initCard)
                 <br>
-                <x-card title="New Entry" separator shadow
+                <x-card title="New Entry" shadow
                         progress-indicator="confirm">
                     <x-slot:menu>
                         <x-button label="Reset" link="/orders/create" icon="o-arrow-uturn-right"
@@ -365,53 +365,67 @@ new class extends Component {
                     </x-slot:menu>
                     <x-slot:actions>
                         @if($confirm)
-                            <x-button label="Confirm & set reminder" wire:click="confirmSave" icon="o-check"
-                                      class="btn-sm btn-primary"/>
+                            <x-button label="Confirm & set reminder" wire:click="confirmSave" icon=""
+                                      class="btn-primary"/>
                         @endif
                     </x-slot:actions>
+                    <hr>
+                    <br>
+                    <x-input label="Enter blood sugar level (mmol/L)" wire:model="sugar_level" type="number" icon="" onfocus="this.select()" />
 
-                    <x-input label="Enter blood sugar level (mmol/L)" wire:model="sugar_level" type="number" step="0.01"
-                             icon=""/>
 
                     <br>
 
-                    <x-button label="Confirm Sugar Level & Select Activity" wire:click="confirmSugarLevel"
-                              icon="o-check"
-                              class="btn-sm btn-primary"/>
+                    <x-button label="Continue" wire:click="confirmSugarLevel"
+                              icon=""
+                              class="btn-primary"/>
                     <br> <br>
 
                     @if($showActivitiesProtocol)
-                        <x-choices
+                        {{-- <x-choices
                             label="Select activity"
                             wire:model.live="user_id"
                             :options="$protocols"
                             option-sub-label="email"
-                            {{-- hint="Search for Protocol name" --}}
                             icon=""
                             single
                             searchable
                         />
+                        <br> --}}
+                        <x-select label="Select activity" 
+                            wire:model.live="user_id"
+                            :options="$protocols"
+                            placeholder="Choose activity"
+                            icon=""/>
 
                         @if($user_id === "exercise")
                             <br>
-                            <x-choices
+                            {{-- <x-choices
                                 wire:model.live="plan_exercise_id"
                                 :options="collect([['id'=>'planned', 'name'=>'The Exercise Is Planned'], ['id'=>'unplanned', 'name'=>'The Exercise Is Unplanned (Not Planned)']])"
                                 option-sub-label="email"
-                                {{-- hint="Select Exercise Plan" --}}
                                 label="Select exercise type"
-                                {{-- icon="o-magnifying-glass" --}}
                                 single
-                                searchable/>
+                                searchable/> --}}
+
+                                
+                            <x-select 
+                                label="Select exercise type" 
+                                wire:model.live="plan_exercise_id"
+                                :options="collect([['id'=>'planned', 'name'=>'The exercise is planned'], ['id'=>'unplanned', 'name'=>'The exercise is unplanned']])"
+                                placeholder="Choose type"
+                                icon=""/>
                         @endif
 
                         {{--for planned exercize the patient to select the time to start the session--}}
                         @if($plan_exercise_id === "planned")
                             <br>
-                            <x-input label="Select Time To Start Session"
+                            <x-input label="Enter starting time"
                                      wire:model.live="plan_exercise_time"
                                      type="time"
-                                     icon=""/>
+                                     icon=""
+                                     
+                                     />
                             {{--                        <x-choices--}}
                             {{--                            wire:model.live="plan_exercise_time"--}}
                             {{--                            :options="collect([--}}
@@ -429,20 +443,25 @@ new class extends Component {
 
                         @if($plan_exercise_id === "unplanned")
                             <br>
-                            <x-choices
+                            {{-- <x-choices
                                 wire:model.live="un_plan_exercise_time"
                                 :options="collect([['id'=>'first', 'name'=>'Session is less than 120 mins'], ['id'=>'second', 'name'=>'Session is greater than 120 mins']])"
                                 option-sub-label="email"
-                                {{-- hint="Select Time For Session" --}}
                                 label="Select session"
-                                {{-- icon="o-magnifying-glass" --}}
                                 single
-                                searchable/>
+                                searchable/> --}}
+                            
+                            <x-select 
+                                label="Select session" 
+                                wire:model.live="un_plan_exercise_time"
+                                :options="collect([['id'=>'first', 'name'=>'Session is shorter than 2hrs'], ['id'=>'second', 'name'=>'Session is longer than 2hrs']])"
+                                placeholder="Choose session"
+                                icon=""/>
                         @endif
 
                         @if($un_plan_exercise_time)
                             <br>
-                            <x-choices
+                            {{-- <x-choices
                                 wire:model.live="un_plan_exercise_intensity"
                                 :options="collect([
                                             ['id'=>'very_light', 'name'=>'Very Light'],
@@ -452,11 +471,21 @@ new class extends Component {
                                             ['id'=> 'very_vigorous','name'=> 'Very Vigorous']
                                             ])"
                                 option-sub-label="email"
-                                {{-- hint="Select Exercise Intensity" --}}
                                 label="Select exercise intensity"
-                                {{-- icon="o-magnifying-glass" --}}
                                 single
-                            />
+                            /> --}}
+                             <x-select 
+                                label="Select exercise intensity" 
+                                wire:model.live="un_plan_exercise_intensity"
+                               :options="collect([
+                                            ['id'=>'very_light', 'name'=>'Very Light'],
+                                            ['id'=>'light', 'name'=>'Light'],
+                                            ['id'=>'moderate', 'name'=>'Moderate'],
+                                            ['id'=>'vigorous', 'name'=> 'Vigorous'],
+                                            ['id'=> 'very_vigorous','name'=> 'Very Vigorous']
+                                            ])"
+                                placeholder="Choose intensity"
+                                icon=""/>
                         @endif
 
                         @if($un_plan_exercise_intensity === 'very_light')
@@ -522,7 +551,8 @@ new class extends Component {
                         @if($user_id === "foodInsulin")
                             <br>
                             <x-input label="Enter net carbs (grams)" wire:model="number_carbs"
-                                     icon="" type="number" step="0.01"
+                                     icon="" type="number"
+                                     onfocus="this.select()"
                             >
                                 <x-slot:append>
                                     <x-button label="Calculate Dosage" wire:click="calculateDos" icon="o-check"
@@ -574,12 +604,10 @@ new class extends Component {
                             @endif
                         @endif
                         <br>
-                    @else
+                    {{-- @else
                         <x-stat :value="'To Begin Please Enter Sugar Level Above 0'" title="Enter Sugar Level"
-                                {{-- icon="o-banknotes" --}}
-                                class="shadow truncate text-ellipsis"/>
+                                class="shadow truncate text-ellipsis"/> --}}
                     @endif
-
                 </x-card>
             @endif
 
@@ -642,7 +670,7 @@ new class extends Component {
 
         {{-- IMAGE --}}
         <div>
-            <img src="/images/edit-form.png" class="mx-auto" width="300px"/>
+            {{-- <img src="/images/edit-form.png" class="mx-auto" width="300px"/> --}}
         </div>
     </div>
 

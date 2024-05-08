@@ -47,27 +47,15 @@ new class extends Component {
             ->paginate(7);
     }
 
-    // public function headers(): array
-    // {
-    //     return [
-    //         ['key' => 'preview', 'label' => '', 'class' => 'w-14', 'sortable' => false],
-    //         ['key' => 'name', 'label' => 'Name'],
-    //         ['key' => 'brand.name', 'label' => 'Brand', 'sortBy' => 'brand_name', 'class' => 'hidden lg:table-cell'],
-    //         ['key' => 'category.name', 'label' => 'Category', 'sortBy' => 'category_name', 'class' => 'hidden lg:table-cell'],
-    //         ['key' => 'price_human', 'label' => 'Price', 'sortBy' => 'price', 'class' => 'hidden lg:table-cell'],
-    //         ['key' => 'stock', 'label' => 'Stock', 'class' => 'hidden lg:table-cell']
-    //     ];
-    // }
-
-     public function headers(): array
+    public function headers(): array
     {
         return [
-            ['key' => 'avatar', 'label' => '', 'class' => 'w-14', 'sortable' => false],
+            ['key' => 'preview', 'label' => '', 'class' => 'w-14', 'sortable' => false],
             ['key' => 'name', 'label' => 'Name'],
-            ['key' => 'country.name', 'label' => 'Admin type', 'sortBy' => 'country_name', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'email', 'label' => 'Phone', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'email', 'label' => 'Email', 'class' => 'hidden lg:table-cell'],
-            ['key' => 'email', 'label' => 'No. of priviledges', 'class' => 'hidden lg:table-cell']
+            ['key' => 'brand.name', 'label' => 'Brand', 'sortBy' => 'brand_name', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'category.name', 'label' => 'Category', 'sortBy' => 'category_name', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'price_human', 'label' => 'Price', 'sortBy' => 'price', 'class' => 'hidden lg:table-cell'],
+            ['key' => 'stock', 'label' => 'Stock', 'class' => 'hidden lg:table-cell']
         ];
     }
 
